@@ -6,6 +6,7 @@ import br.com.duxusdesafio.model.Time;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class ApiService {
      */
     public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
         /* para cada time da lista, verificar se está entre dataInicial e dataFinal, verificar se o integrante foi escalado. Se o integrante foi escalado
-    		* adicionar contador +1. Retornar integrante com maior contagem
+    		* adicionar contador +1. Retornar integrante com maior contagem.
     		*/
     	
     	// armazena os integrantes dos times
@@ -73,10 +74,9 @@ public class ApiService {
 			int contador = entry.getValue();
 		
 			if (contador > MaiorContagem) {
-				MaiorContagem = contador;
+				MaiorContagem = contador; //passa valor de dentro do for para fora
 				integranteMaisUsado = integrante; 
 			}
-			
     	 }
         return integranteMaisUsado;
     }
@@ -86,24 +86,117 @@ public class ApiService {
      * OBS: Time é o clube + composição em determinada data
      */
     public List<String> integrantesDoTimeMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+        // para cada time da lista em determinada data, verificar se está nos times mais recorrentes. Se estiver, verificar os jogadores daquele time.
+    	
+    	Map<String, Integer> times = new HashMap<>();
+    	
+    	for (Time time : todosOsTimes) {
+    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
+    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    				
+    				String timesE = time.getNomeDoClube();
+    				times.put(timesE, times.getOrDefault(timesE, 0) + 1);		
+    		}
+    	}
+    	
+    	int MaiorContagem = 0;
+    	String timeMaisUsado = null;
+				
+    	for (Map.Entry<String, Integer> entry : times.entrySet()) {
+    					
+    		String time1 = entry.getKey();
+    		int contador = entry.getValue();
+   					
+   			if (contador > MaiorContagem) {
+   				MaiorContagem = contador;
+   				timeMaisUsado = time1;
+   			}
+    	}
+    				
+    		List<String> integrantes = new ArrayList<>(); // cria lista vazia, para armazenar os integrantes do time mais usado
+   			for (Time time : todosOsTimes) {
+   				if (time.getNomeDoClube().equals(timeMaisUsado)) { //para todos os times da lista de times, verificar qual o nome do clube é igual ao time mais usado
+    							
+   					for(ComposicaoTime composicao : time.getComposicaoTime()) { // entrar na composicao dos times para puxar o jogador mais usado
+    							
+   						Integrante integrante = composicao.getIntegrante();	    							integrantes.add(integrante.getNome());	//armazena o jogador no arraylist
+    				}
+    			}	
+    		}
+   		return integrantes;
     }
 
     /**
      * Vai retornar a função mais recorrente nos times dentro do período
      */
     public String funcaoMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
-    }
+        // para cada time da lista de times, verificar as funções dos jogadores e retornar a função mais recorrente deles.
+    	
+    	Map<String, Integer> funcoes = new HashMap<>();
+    	
+    	for (Time time : todosOsTimes) {
+    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
+        			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    			
+    			for (ComposicaoTime composicao : time.getComposicaoTime()) {
+    				
+    				Integrante integrante = composicao.getIntegrante();
+    				String funcoesE = integrante.getFuncao();
+        			funcoes.put(funcoesE, funcoes.getOrDefault(funcoesE, 0) + 1);
+    			}
+    		
+    		}
+    	}
 
+    	int MaiorContagem = 0;
+    	String FuncaoMaisUsada = null;
+    	
+		for (Map.Entry<String, Integer> entry : funcoes.entrySet()) {
+			
+			String funcao1 = entry.getKey();
+			int contador = entry.getValue();
+			
+			if (contador > MaiorContagem) {
+   				MaiorContagem = contador;
+   				FuncaoMaisUsada = funcao1;
+			}	
+		} 
+
+		return FuncaoMaisUsada;
+		
+    }
+    
     /**
      * Vai retornar o nome do Clube mais comum dentro do período
      */
     public String clubeMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-        // TODO Implementar método seguindo as instruções!
-        return null;
+        // TODO para cada time da lista, em determinada data. Retornar o com mais jogos. ( código feito no método anterior, reutilizado)
+    	
+    	Map<String, Integer> times = new HashMap<>();
+    	
+    	for (Time time : todosOsTimes) {
+    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
+    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    				
+    				String timesE = time.getNomeDoClube();
+    				times.put(timesE, times.getOrDefault(timesE, 0) + 1);		
+    		}
+    	}
+    	
+    	int MaiorContagem = 0;
+    	String timeMaisUsado = null;
+				
+    	for (Map.Entry<String, Integer> entry : times.entrySet()) {
+    					
+    		String time1 = entry.getKey();
+    		int contador = entry.getValue();
+   					
+   			if (contador > MaiorContagem) {
+   				MaiorContagem = contador;
+   				timeMaisUsado = time1;
+   			}
+    	}
+        return timeMaisUsado;
     }
 
 
@@ -111,8 +204,21 @@ public class ApiService {
      * Vai retornar o número (quantidade) de aparições de cada Clube participante no período
      */
     public Map<String, Long> contagemDeClubesNoPeriodo(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+        // para cada time da lista, em determinado periodo, contar quantas vezes apareceram nesse período. (código reutilizado)
+    	
+    	
+    	Map<String, Long> times = new HashMap<>(); //armazena os times
+    	
+    	for (Time time : todosOsTimes) {
+    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
+    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    				
+    				String timesE = time.getNomeDoClube();
+    				times.put(timesE, times.getOrDefault(timesE, 0L) + 1L); //aumenta na lista as vezes que o time apareceu
+    		}
+    	}
+    	
+        return times;
     }
 
     /**
@@ -120,8 +226,24 @@ public class ApiService {
      * Dica - pense sobre repetições!
      */
     public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+        // para cada funcao do integrante, em determinado período, contar quantas fezes apareceram nesse período. (código reutilizado)
+    	
+    	Map<String, Long> funcoes = new HashMap<>(); 
+    	
+    	for (Time time : todosOsTimes) {
+    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
+    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    				
+    			for (ComposicaoTime composicao : time.getComposicaoTime()) {
+    				
+    				Integrante integrante = composicao.getIntegrante();
+    				String funcoesE = integrante.getFuncao();	
+        			funcoes.put(funcoesE, funcoes.getOrDefault(funcoesE, 0L) + 1L); //aumenta na lista as vezes que o time apareceu
+    			}
+    		
+    		}
+    	}
+        return funcoes;
     }
 
 }
