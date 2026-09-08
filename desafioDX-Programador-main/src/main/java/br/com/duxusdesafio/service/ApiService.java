@@ -3,6 +3,10 @@ package br.com.duxusdesafio.service;
 import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
+import br.com.duxusdesafio.repository.ComposicaoTimeRepository;
+import br.com.duxusdesafio.repository.IntegranteRepository;
+import br.com.duxusdesafio.repository.TimeRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,6 +26,22 @@ import java.util.Map;
  */
 @Service
 public class ApiService {
+
+	// parte de passagem dos métodos para os repositorios de armazenamento em banco de dados.
+	private final TimeRepository timeRepository;
+	private final IntegranteRepository integranteRepository;
+	private final ComposicaoTimeRepository composicaoTimeRepository;
+	
+	public ApiService(TimeRepository timeRepository, 
+			IntegranteRepository integranteRepository,
+			ComposicaoTimeRepository composicaoTimeRepository) {
+		
+		this.timeRepository = timeRepository;
+		this.integranteRepository = integranteRepository;
+		this.composicaoTimeRepository = composicaoTimeRepository;
+		
+	}
+
 
     /**
      * Vai retornar um Time, com a composição do time daquela data
@@ -245,5 +265,13 @@ public class ApiService {
     	}
         return funcoes;
     }
+    
+    public List<Time> buscarTodosOsTimes() {
+        return timeRepository.findAll(); //findAll aproveitado do JpaRepository, para passar todos registros de time do banco de dados.
+    }	
+    
+    public Integrante cadastrarIntegrante(Integrante integrante) {
+    	return integranteRepository.save(integrante); //armazena integrante cadastrado via @RequestBody da ApiController
+    } 
 
 }
