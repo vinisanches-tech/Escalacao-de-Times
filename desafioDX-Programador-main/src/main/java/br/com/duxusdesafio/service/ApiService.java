@@ -48,7 +48,7 @@ public class ApiService {
         // para cada time da lista de time, verificar qual pertence a data. Se for igual a data, retornar o time
     	
     	for (Time time: todosOsTimes) {
-    		if (data.isEqual(time.getData())) {
+    		if (time.getData() != null && time.getData().isEqual(data)) {
     			return time;
     		}
     	}
