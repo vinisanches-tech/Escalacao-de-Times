@@ -268,10 +268,32 @@ public class ApiService {
     
     public List<Time> buscarTodosOsTimes() {
         return timeRepository.findAll(); //findAll aproveitado do JpaRepository, para passar todos registros de time do banco de dados.
-    }	
+    }
+    
+    public List<Integrante> buscarTodosOsIntegrantes() {
+    	return integranteRepository.findAll(); //puxa todos registros de integrantes do banco de dados.
+    }
+    
     
     public Integrante cadastrarIntegrante(Integrante integrante) {
     	return integranteRepository.save(integrante); //armazena integrante cadastrado via @RequestBody da ApiController
-    } 
+    }
+    
+    // parte para registrar time com jogadores e composição
+    public Time cadastrarTime(Time time) {
+    	
+    	
+    	List<ComposicaoTime> escalados = time.getComposicaoTime(); //necessario para puxar a composicao junto aos jogadores
+    		
+    	for (ComposicaoTime composicao : escalados) { 
+    			composicao.setTime(time);
+    	}
+    	
+    	Time timeSalvo = timeRepository.save(time);
+        return timeSalvo; //armazena time cadastrado, junto dos jogadores e composicao
+    }
+    
+    
+    
 
 }
