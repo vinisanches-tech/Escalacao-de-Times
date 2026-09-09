@@ -53,7 +53,7 @@ public class ApiController {
 	}
 
 @GetMapping("/timesData")
-	public Time buscarTime(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate data) { // Puxa o time entre datas
+	public Time buscarTime(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate data) { // Puxa o time da data
 	
     List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
     	return apiService.timeDaData(data, todosOsTimes);
@@ -95,7 +95,7 @@ public class ApiController {
 	}
 
 @GetMapping("/funcaoMais")
-	public Map<String, Long> funcaoPeriodo(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa quais funcoes foram usadas.
+	public Map<String, Long> funcaoPeriodo(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa quais funcoes foram usadas.
 	
 	List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
 		return apiService.contagemPorFuncao(dataInicial, dataFinal, todosOsTimes);
