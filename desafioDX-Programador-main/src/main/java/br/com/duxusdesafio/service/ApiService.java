@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 /**
  * Service que possuirá as regras de negócio para o processamento dos dados
@@ -81,7 +84,7 @@ public class ApiService {
     		}
     	}
     	
-    	int MaiorContagem = 0; 
+    	int maiorContagem = 0; 
 		Integrante integranteMaisUsado = null;
 		
 		
@@ -90,8 +93,8 @@ public class ApiService {
 			Integrante integrante = entry.getKey();
 			int contador = entry.getValue();
 		
-			if (contador > MaiorContagem) {
-				MaiorContagem = contador; //passa valor de dentro do for para fora
+			if (contador > maiorContagem) {
+				maiorContagem = contador; //passa valor de dentro do for para fora
 				integranteMaisUsado = integrante; 
 			}
     	 }
@@ -116,7 +119,7 @@ public class ApiService {
     		}
     	}
     	
-    	int MaiorContagem = 0;
+    	int maiorContagem = 0;
     	String timeMaisUsado = null;
 				
     	for (Map.Entry<String, Integer> entry : times.entrySet()) {
@@ -124,8 +127,8 @@ public class ApiService {
     		String time1 = entry.getKey();
     		int contador = entry.getValue();
    					
-   			if (contador > MaiorContagem) {
-   				MaiorContagem = contador;
+   			if (contador > maiorContagem) {
+   				maiorContagem = contador;
    				timeMaisUsado = time1;
    			}
     	}
@@ -165,7 +168,7 @@ public class ApiService {
     		}
     	}
 
-    	int MaiorContagem = 0;
+    	int maiorContagem = 0;
     	String FuncaoMaisUsada = null;
     	
 		for (Map.Entry<String, Integer> entry : funcoes.entrySet()) {
@@ -173,8 +176,8 @@ public class ApiService {
 			String funcao1 = entry.getKey();
 			int contador = entry.getValue();
 			
-			if (contador > MaiorContagem) {
-   				MaiorContagem = contador;
+			if (contador > maiorContagem) {
+   				maiorContagem = contador;
    				FuncaoMaisUsada = funcao1;
 			}	
 		} 
@@ -200,7 +203,7 @@ public class ApiService {
     		}
     	}
     	
-    	int MaiorContagem = 0;
+    	int maiorContagem = 0;
     	String timeMaisUsado = null;
 				
     	for (Map.Entry<String, Integer> entry : times.entrySet()) {
@@ -208,8 +211,8 @@ public class ApiService {
     		String time1 = entry.getKey();
     		int contador = entry.getValue();
    					
-   			if (contador > MaiorContagem) {
-   				MaiorContagem = contador;
+   			if (contador > maiorContagem) {
+   				maiorContagem = contador;
    				timeMaisUsado = time1;
    			}
     	}
@@ -281,12 +284,29 @@ public class ApiService {
     	
     	
     	List<ComposicaoTime> escalados = time.getComposicaoTime(); //necessario para puxar a composicao junto aos jogadores
-    		
-    	for (ComposicaoTime composicao : escalados) { 
+    	
+    	if (escalados != null) {
+    		for (ComposicaoTime composicao : escalados) { 
     			composicao.setTime(time);
+    			
+    			if (composicao.getIntegrante() == null) {
+    				throw new NullPointerException("Não pode ser nulo");
+    			}
+    			
+    			long id = composicao.getIntegrante().getId();
+    			
+    			Optional<Integrante> integranteOp = integranteRepository.findById(id);
+    			
+    			if (integranteOp.isEmpty()) {
+    				throw new EntityNotFoundException("Jogador não encontrado");
+    			} else {
+    				composicao.setIntegrante(integranteOp.get());
+    			}
+    		}
     	}
     	
     	Time timeSalvo = timeRepository.save(time);
+    	
         return timeSalvo; //armazena time cadastrado, junto dos jogadores e composicao
     }
     
