@@ -71,18 +71,17 @@ public class ApiService {
     	
     	
     	for (Time time : todosOsTimes) {
-    		if (
-    			(time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
-    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) { //utilizado parenteses ( || ) && (||) devido prioridade de leitura do java
+    		if ((dataInicial == null || time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial))
+    			    && (dataFinal == null || time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {  //utilizado parenteses ( || ) && (||) devido prioridade de leitura do java    			
     			
     			for (ComposicaoTime composicao : time.getComposicaoTime()) { //busca os integrantes pela escalação
     				
     				Integrante mais = composicao.getIntegrante(); //chama o integrante da classe ComposicaoTime
     				integrantes.put(mais, integrantes.getOrDefault(mais, 0) + 1); //aumenta sempre que aparecer o mesmo integrante
         			
-    				}
     			}
     		}
+    	}
     	
     	int MaiorContagem = 0; 
 		Integrante integranteMaisUsado = null;
@@ -111,8 +110,8 @@ public class ApiService {
     	Map<String, Integer> times = new HashMap<>();
     	
     	for (Time time : todosOsTimes) {
-    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
-    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    		if ((dataInicial == null || time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial))
+    			    && (dataFinal == null || time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
     				
     				String timesE = time.getNomeDoClube();
     				times.put(timesE, times.getOrDefault(timesE, 0) + 1);		
@@ -155,8 +154,8 @@ public class ApiService {
     	Map<String, Integer> funcoes = new HashMap<>();
     	
     	for (Time time : todosOsTimes) {
-    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
-        			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    		if ((dataInicial == null || time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial))
+    			    && (dataFinal == null || time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
     			
     			for (ComposicaoTime composicao : time.getComposicaoTime()) {
     				
@@ -190,13 +189,13 @@ public class ApiService {
      * Vai retornar o nome do Clube mais comum dentro do período
      */
     public String clubeMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-        // TODO para cada time da lista, em determinada data. Retornar o com mais jogos. ( código feito no método anterior, reutilizado)
+        //para cada time da lista, em determinada data. Retornar o com mais jogos. ( código feito no método anterior, reutilizado)
     	
     	Map<String, Integer> times = new HashMap<>();
     	
     	for (Time time : todosOsTimes) {
-    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
-    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    		if ((dataInicial == null || time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial))
+    			    && (dataFinal == null || time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
     				
     				String timesE = time.getNomeDoClube();
     				times.put(timesE, times.getOrDefault(timesE, 0) + 1);		
@@ -230,8 +229,8 @@ public class ApiService {
     	Map<String, Long> times = new HashMap<>(); //armazena os times
     	
     	for (Time time : todosOsTimes) {
-    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
-    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    		if ((dataInicial == null || time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial))
+    			    && (dataFinal == null || time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
     				
     				String timesE = time.getNomeDoClube();
     				times.put(timesE, times.getOrDefault(timesE, 0L) + 1L); //aumenta na lista as vezes que o time apareceu
@@ -251,8 +250,8 @@ public class ApiService {
     	Map<String, Long> funcoes = new HashMap<>(); 
     	
     	for (Time time : todosOsTimes) {
-    		if ((time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial)) 
-    			&& (time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+    		if ((dataInicial == null || time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial))
+    			    && (dataFinal == null || time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
     				
     			for (ComposicaoTime composicao : time.getComposicaoTime()) {
     				
