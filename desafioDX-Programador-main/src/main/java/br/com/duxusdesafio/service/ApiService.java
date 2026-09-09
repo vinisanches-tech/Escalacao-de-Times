@@ -30,7 +30,6 @@ public class ApiService {
 	// parte de passagem dos métodos para os repositorios de armazenamento em banco de dados.
 	private final TimeRepository timeRepository;
 	private final IntegranteRepository integranteRepository;
-	private final ComposicaoTimeRepository composicaoTimeRepository;
 	
 	public ApiService(TimeRepository timeRepository, 
 			IntegranteRepository integranteRepository,
@@ -38,7 +37,6 @@ public class ApiService {
 		
 		this.timeRepository = timeRepository;
 		this.integranteRepository = integranteRepository;
-		this.composicaoTimeRepository = composicaoTimeRepository;
 		
 	}
 
