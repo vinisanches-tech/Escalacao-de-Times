@@ -138,9 +138,17 @@ public class ApiService {
    				if (time.getNomeDoClube().equals(timeMaisUsado)) { //para todos os times da lista de times, verificar qual o nome do clube é igual ao time mais usado
     							
    					for(ComposicaoTime composicao : time.getComposicaoTime()) { // entrar na composicao dos times para puxar o jogador mais usado
-    							
-   						Integrante integrante = composicao.getIntegrante();	    							integrantes.add(integrante.getNome());	//armazena o jogador no arraylist
+   						
+   						if ((dataInicial == null || time.getData().isAfter(dataInicial) || time.getData().isEqual(dataInicial))
+   			    			    && (dataFinal == null || time.getData().isBefore(dataFinal) || time.getData().isEqual(dataFinal))) {
+   							Integrante integrante = composicao.getIntegrante();
+   							
+   							if (!integrantes.contains(integrante.getNome())) {
+   	   							integrantes.add(integrante.getNome());//armazena o jogador no arraylist
+   	   						}
+   						}
     				}
+   					
     			}	
     		}
    		return integrantes;
