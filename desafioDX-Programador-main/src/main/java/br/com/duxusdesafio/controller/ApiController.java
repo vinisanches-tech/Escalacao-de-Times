@@ -59,42 +59,42 @@ public class ApiController {
     	return apiService.timeDaData(data, todosOsTimes);
 	}
 
-@GetMapping("/integranteFav") // para verificação, utilize seguinte URL http://localhost:8080/api/integranteFav?data=ano-mes-dia <- escolha data confome disponibilidade do BD
+@GetMapping("/integranteFav") // para verificação, utilize seguinte URL http://localhost:8080/api/integranteFav?dataInicial=ano-mes-dia&dataFinal=ano-mes-dia <- escolha data confome disponibilidade do BD
 	public Integrante buscarIntegrante(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa integrante que mais foi escalado.
 	
 	List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
 		return apiService.integranteMaisUsado(dataInicial, dataFinal, todosOsTimes);
 	}
 
-@GetMapping("/jogadoresTimeFav") // para verificação, utilize seguinte URL http://localhost:8080/api/jogadoresTimeFav?data=ano-mes-dia <- escolha data confome disponibilidade do BD
+@GetMapping("/jogadoresTimeFav") // para verificação, utilize seguinte URL http://localhost:8080/api/jogadoresTimeFav?dataInicial=ano-mes-dia&dataFinal=ano-mes-dia <- escolha data confome disponibilidade do BD
 	public List<String> jogadoresTime(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa jogadores do time que mais jogou.
 	
 	List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
 		return apiService.integrantesDoTimeMaisRecorrente(dataInicial, dataFinal, todosOsTimes);
 	}
 
-@GetMapping("/funcaoFav") // para verificação, utilize seguinte URL http://localhost:8080/api/funcaoFav?data=ano-mes-dia <- escolha data confome disponibilidade do BD
+@GetMapping("/funcaoFav") // para verificação, utilize seguinte URL http://localhost:8080/api/funcaoFav?dataInicial=ano-mes-dia&dataFinal=ano-mes-dia <- escolha data confome disponibilidade do BD
 	public String funcaoIntegrante(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa funcao mais usada nos times.
 	
 	List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
 		return apiService.funcaoMaisRecorrente(dataInicial, dataFinal, todosOsTimes);
 	}
 
-@GetMapping("/timeMais") // para verificação, utilize seguinte URL http://localhost:8080/api/timeMais?data=ano-mes-dia <- escolha data confome disponibilidade do BD
+@GetMapping("/timeMais") // para verificação, utilize seguinte URL http://localhost:8080/api/timeMais?dataInicial=ano-mes-dia&dataFinal=ano-mes-dia <- escolha data confome disponibilidade do BD
 	public String timeRecorrente(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa time com mais jogos.
 	
 	List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
 		return apiService.clubeMaisRecorrente(dataInicial, dataFinal, todosOsTimes);
 	}
 
-@GetMapping("/clubesPeriodo") // para verificação, utilize seguinte URL http://localhost:8080/api/clubesPeriodo?data=ano-mes-dia <- escolha data confome disponibilidade do BD
+@GetMapping("/clubesPeriodo") // para verificação, utilize seguinte URL http://localhost:8080/api/clubesPeriodo?dataInicial=ano-mes-dia&dataFinal=ano-mes-dia <- escolha data confome disponibilidade do BD
 	public Map<String, Long> clubesPeriodo(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa quantas vezes o time jogou.
 	
 	List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
 		return apiService.contagemDeClubesNoPeriodo(dataInicial, dataFinal, todosOsTimes);
 	}
 
-@GetMapping("/funcaoMais") // para verificação, utilize seguinte URL http://localhost:8080/api/funcaoMais?data=ano-mes-dia <- escolha data confome disponibilidade do BD
+@GetMapping("/funcaoMais") // para verificação, utilize seguinte URL http://localhost:8080/api/funcaoMais?dataInicial=ano-mes-dia&dataFinal=ano-mes-dia <- escolha data confome disponibilidade do BD
 	public Map<String, Long> funcaoPeriodo(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) { // Puxa quais funcoes foram usadas.
 	
 	List<Time> todosOsTimes = apiService.buscarTodosOsTimes();
